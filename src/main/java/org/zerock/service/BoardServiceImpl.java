@@ -20,12 +20,13 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public void register(BoardVO board) {
-		// TODO Auto-generated method stub
-
+		log.info("register......" + board);
+		boardMapper.insertSelectKey(board);
 	}
-	@Override
+	
+	
 	public boolean remove(Long bno) {
-		// TODO Auto-generated method stub
+		// 
 		return false;
 	}
 
