@@ -7,7 +7,7 @@
 	<select id="getList" resultType="org.zerock.domain.BoardVO">
 		<!-- CDATA 사용 이유 특수문자를 문자열로 인식시키기 위해 (SQL 문 안에) -->
 		<![CDATA[
-			select * from tbl_board where bno > 0
+			select * from tbl_board where bno between 1 and 1000 
 		]]>
 	</select>
 
