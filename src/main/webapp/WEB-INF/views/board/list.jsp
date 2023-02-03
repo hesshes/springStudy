@@ -35,7 +35,7 @@
 					<c:forEach items="${list }" var="board">
 						<tr>
 							<td>${board.bno }</td>
-							<td>${board.title }</td>
+							<td><a class="move" href="${board.bno }">${board.title }</a></td>
 							<td>${board.writer }</td>
 							<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.regdate }" /></td>
 							<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.updateDate }" /></td>
@@ -43,6 +43,22 @@
 					</c:forEach>
 				</table>
 				<!-- /.table -->
+				<div class="pull-right">
+					<ul class="pagination">
+						<c:if test="${pageMaker.prev }">
+							<li class="paginate_button previous"><a href="${pageMaker.startPage-1}">Previous</a></li>
+						</c:if>
+
+						<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
+							<li class="paginate_button ${pageMaker.cri.pageNum == num ? "active" : "" }"><a href="${num}">${num }</a></li>
+						</c:forEach>
+
+						<c:if test="${pageMaker.next }">
+							<li class="paginate_button next"><a href="${pageMaker.endPage + 1 }">Next</a></li>
+						</c:if>
+					</ul>
+				</div>
+				<!-- /.end pull-right -->
 				<!-- Modal -->
 				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
@@ -54,7 +70,6 @@
 							<div class="modal-body">처리가 완료되었습니다.</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-								<button type="button" class="btn btn-primary">Save changes</button>
 							</div>
 						</div>
 						<!-- /.modal-content -->
@@ -71,25 +86,62 @@
 </div>
 <!-- /.row -->
 <%@ include file="../includes/footer.jsp"%>
-
+<form id="actionForm" action="/board/list" method="get">
+	<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
+	<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
+</form>
 <script>
-	$(document).ready(
-			function() {
-				var result = "${result}";
-				checkModal(result);
+	$(document)
+			.ready(
+					function() {
+						var result = "${result}";
+						checkModal(result);
 
-				function checkModal(result) {
-					if (result === '')
-						return;
-					if (parseInt(result) > 0)
-						$(".modal-body").html(
-								"게시글 " + parseInt(result) + " 번이 등록되었습니다.");
+						//history.replaceState({}, null, null);
 
-					$("#myModal").modal("show");
-				}
+						function checkModal(result) {
 
-				$("#regBtn").on("click", function() {
-					self.location = "/board/register";
-				});
-			});
+							if (result === '' || history.state)
+								return;
+							if (parseInt(result) > 0)
+								$(".modal-body").html(
+										"게시글 " + parseInt(result)
+												+ " 번이 등록되었습니다.");
+
+							$("#myModal").modal("show");
+						}
+
+						$("#regBtn").on("click", function() {
+							self.location = "/board/register";
+						});
+
+						var actionForm = $("#actionForxm");
+
+						$(".paginate_button a").on(
+								"click",
+								function(e) {
+									e.preventDefault();
+
+									console.log("click");
+
+									actionForm.find("input[name='pageNum']")
+											.val($(this).attr("href"));
+									actionForm.submit();
+								});
+
+						$(".move")
+								.on(
+										"click",
+										function(e) {
+											e.preventDefault();
+											actionForm
+													.appand("<input type='hidden' name='bno' value'"
+															+ $(this).attr(
+																	"href")
+															+ "'>");
+											actionForm.attr("action",
+													"/board/get");
+											actionForm.submit();
+										});
+					});
 </script>
