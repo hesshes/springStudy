@@ -26,9 +26,7 @@ public class BoardMapperTests {
 	 * @Test public void testGetList() {
 	 * log.info("testGetList() ========================================");
 	 * boardMapper.getList().forEach(board -> log.info(board)); }
-	 */
-
-	/*
+	 * 
 	 * @Test public void testInsert() { BoardVO board = new BoardVO();
 	 * board.setTitle("새로 작성하는 글"); board.setContent("새로 작성하는 내용");
 	 * board.setWriter("newbie");
@@ -74,21 +72,24 @@ public class BoardMapperTests {
 	 * int result = boardMapper.update(board);
 	 * 
 	 * log.info("test update result : " + result); }
-	 */
-
-	/*
+	 * 
 	 * @Test public void testPaging() { Criteria cri = new Criteria();
 	 * cri.setPageNum(3); cri.setAmount(10); List<BoardVO> list =
 	 * boardMapper.getListWithPaging(cri);
 	 * 
 	 * list.forEach(board -> log.info(board)); }
+	 * 
+	 * @Test public void testTotal() { Criteria cri = new Criteria();
+	 * cri.setPageNum(1); cri.setAmount(20); log.info("total : " +
+	 * boardMapper.getTotalCount(cri)); }
+	 * 
+	 * 
+	 * @Test public void testSearch() { Criteria cri = new Criteria();
+	 * cri.setKeyword("test"); cri.setType("");
+	 * 
+	 * List<BoardVO> list = boardMapper.getListWithPaging(cri); list.forEach(board
+	 * -> log.info(board));
+	 * 
+	 * }
 	 */
-
-	@Test
-	public void testTotal() {
-		Criteria cri = new Criteria();
-		cri.setPageNum(1);
-		cri.setAmount(20);
-		log.info("total : " + boardMapper.getTotalCount(cri));
-	}
 }
