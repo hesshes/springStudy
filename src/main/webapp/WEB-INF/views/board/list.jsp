@@ -94,6 +94,7 @@
 	$(document)
 			.ready(
 					function() {
+						
 						var result = "${result}";
 						checkModal(result);
 
@@ -115,7 +116,7 @@
 							self.location = "/board/register";
 						});
 
-						var actionForm = $("#actionForxm");
+						var actionForm = $("#actionForm");
 
 						$(".paginate_button a").on(
 								"click",
@@ -133,9 +134,10 @@
 								.on(
 										"click",
 										function(e) {
+											
 											e.preventDefault();
 											actionForm
-													.appand("<input type='hidden' name='bno' value'"
+													.append("<input type='hidden' name='bno' value='"
 															+ $(this).attr(
 																	"href")
 															+ "'>");

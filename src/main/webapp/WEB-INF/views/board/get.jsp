@@ -17,22 +17,28 @@
 			<div class="panel-heading">Board Read Page</div>
 			<div class="panel-body">
 				<div class="form-gorup">
-					<label>Bno</label><input class="form-control" name="bno" value="${board.bno }" readonly="readonly">
+					<label>Bno</label>
+					<input class="form-control" name="bno" value="${board.bno }" readonly="readonly">
 				</div>
 				<div class="form-gorup">
-					<label>Title</label><input class="form-control" name="bno" value="${board.title }" readonly="readonly">
+					<label>Title</label>
+					<input class="form-control" name="bno" value="${board.title }" readonly="readonly">
 				</div>
 				<div class="form-gorup">
 					<label>Text area</label>
 					<textarea class="form-control" rows="3" name="content" readonly="readonly">${board.content }</textarea>
 				</div>
 				<div class="form-gorup">
-					<label>Writer</label><input class="form-control" name="writer" value="${board.writer }" readonly="readonly">
+					<label>Writer</label>
+					<input class="form-control" name="writer" value="${board.writer }" readonly="readonly">
 				</div>
-				<button data-ooper="modify" class="btn btn-default">Modify</button>
+				<button data-oper="modify" class="btn btn-default">Modify</button>
 				<button data-oper="list" class="btn btn-info">List</button>
+
 				<form id="operForm" action="/board/modify" method="get">
 					<input type="hidden" id="bno" name="bno" value="${board.bno }">
+					<input type="hidden" name="pageNum" value="${cri.pageNum }">
+					<input type="hidden" name="amount" value="${cri.amount }">
 				</form>
 			</div>
 			<!-- /. end panel-body -->

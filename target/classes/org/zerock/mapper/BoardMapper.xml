@@ -36,6 +36,11 @@
 
 	</select>
 
+	<select id="getTotalCount" resultType="int">
+		<![CDATA[
+			select count(*) from tbl_board where bno > 0
+		]]>
+	</select>
 	<insert id="insert">
 	<![CDATA[
 		insert into tbl_board (bno, title, content, writer)
