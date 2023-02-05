@@ -67,5 +67,4 @@ public class BoardControllerTests {
 	 * "수정된 테스트 새글 내용").param("writer", "modifier00"))
 	 * .andReturn().getModelAndView().getViewName(); log.info(resultPage); }
 	 */
-
 }
