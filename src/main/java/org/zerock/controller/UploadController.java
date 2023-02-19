@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
@@ -144,30 +145,30 @@ public class UploadController {
 
 	@GetMapping("/display")
 	@ResponseBody
-	public ResponseEntity<byte[]> getFile(String fileName){
-		
+	public ResponseEntity<byte[]> getFile(String fileName) {
+
 		log.info("fileName : " + fileName);
-		
-		File file = new File(UPFOLDER +File.separator + fileName);
-		
+
+		File file = new File(UPFOLDER + File.separator + fileName);
+
 		log.info("file : " + file);
-		
+
 		ResponseEntity<byte[]> result = null;
-		
+
 		try {
 			HttpHeaders header = new HttpHeaders();
-			
+
 			header.add("Content-Type", Files.probeContentType(file.toPath()));
-			
+
 			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
-			
+
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 		return result;
 	}
-	
+
 	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
 	public ResponseEntity<Resource> downloadFile(@RequestHeader("Uesr-Agent") String UserAgent, String fileName) {
@@ -215,6 +216,40 @@ public class UploadController {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<Resource>(res, headers, HttpStatus.OK);
+	}
+
+	@PostMapping("/deleteFile")
+	@ResponseBody
+	public ResponseEntity<String> deleteFile(String fileName, String type) {
+		log.info("deleteFile : " + fileName);
+
+		File file;
+
+		try {
+			file = new File(UPFOLDER + File.separator + URLDecoder.decode(fileName, "UTF-8"));
+
+			file.delete();
+
+			if (type.equals("image")) {
+
+				String largeFileName = file.getAbsolutePath().replace("s_", "");
+
+				log.info("largeFileName : " + largeFileName);
+
+				file = new File(largeFileName);
+
+				file.delete();
+
+			}
+
+		} catch (UnsupportedEncodingException e) {
+
+			e.printStackTrace();
+
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<String>("deleted", HttpStatus.OK);
 	}
 
 	private String getFolder() {
