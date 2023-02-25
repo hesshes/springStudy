@@ -81,7 +81,7 @@
 		</selectKey>
 		<![CDATA[
 			insert into tbl_board (bno, title, content, writer)
-			values (seq_board.nextval, #{title}, #{content}, #{writer})
+			values (#{bno}, #{title}, #{content}, #{writer})
 		]]>
 	</insert>
 
